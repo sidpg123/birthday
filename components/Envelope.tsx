@@ -33,10 +33,10 @@ export default function Home() {
       image: '/images/memory4.jpg',
       caption: 'Your graduation day. So proud of you!',
     },
-    {
-      image: '/images/memory5.jpg',
-      caption: 'That crazy road trip where we got lost for 3 hours!',
-    },
+    // {
+    //   image: '/images/memory5.jpg',
+    //   caption: 'That crazy road trip where we got lost for 3 hours!',
+    // },
   ];
   
   // Simulate loading effect
