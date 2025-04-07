@@ -47,7 +47,7 @@ export default function BirthdayCard3D({ isOpen, onCardClick, ...props }: Birthd
   });
 
   // Handle card click
-  const handleClick = (e: any) => {
+  const handleClick = (e: { stopPropagation: () => void; }) => {
     e.stopPropagation();
     if (!clicked) {
       onCardClick();

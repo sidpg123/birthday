@@ -5,9 +5,8 @@ import {
 } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { motion } from 'framer-motion';
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import BirthdayCard3D from './BDYCard';
-import { Vector3 } from 'three';
 
 type BirthdayCardSectionProps = {
   message?: string;
