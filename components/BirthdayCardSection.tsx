@@ -94,9 +94,13 @@ const BirthdayCardSection: React.FC<BirthdayCardSectionProps> = ({
       viewport={{ once: false }}
     >
       <div className="w-full h-full flex flex-col justify-center items-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-purple-800 mb-4">
+        <h2 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-500 to-purple-600 drop-shadow-lg mb-6">
           Your Special Day
         </h2>
+
+        <div className="h-1 w-20 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full mb-6"></div>
+
+
 
         <div className="w-full h-[60vh] sm:h-[70vh] md:h-[75vh] overflow-hidden">
           <Canvas shadows>
@@ -117,9 +121,10 @@ const BirthdayCardSection: React.FC<BirthdayCardSectionProps> = ({
           </Canvas>
         </div>
 
-        <p className="text-center text-purple-700 mt-4 px-4">
+        <p className="text-center text-lg sm:text-xl mt-6 px-4 max-w-md text-white drop-shadow-md font-medium italic animate-pulse">
           {!isOpen ? 'Tap the card to open it!' : 'A special message just for you ❤️'}
         </p>
+
       </div>
     </motion.div>
   );
