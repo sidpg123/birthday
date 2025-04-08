@@ -5,7 +5,7 @@ import {
 } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import BirthdayCard3D from './BDYCard';
 
 type BirthdayCardSectionProps = {
@@ -103,7 +103,7 @@ const BirthdayCardSection: React.FC<BirthdayCardSectionProps> = ({
 
 
         <div className="w-full h-[60vh] sm:h-[70vh] md:h-[75vh] overflow-hidden">
-          <Canvas shadows>
+        <Canvas dpr={[1, 2]} shadows >
             <PerspectiveCamera makeDefault position={cameraPosition} />
             <ambientLight intensity={0.5} />
             <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} intensity={1} castShadow />
@@ -116,7 +116,9 @@ const BirthdayCardSection: React.FC<BirthdayCardSectionProps> = ({
               target={[0, 0, 0]}
             // Removed minAzimuthAngle and maxAzimuthAngle to allow full rotation
             />
+            <Suspense fallback={null}>
             <BirthdayCard3D isOpen={isOpen} onCardClick={handleCardClick} />
+            </Suspense>
             <Environment preset="sunset" />
           </Canvas>
         </div>

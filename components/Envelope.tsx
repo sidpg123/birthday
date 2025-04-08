@@ -1,21 +1,25 @@
 // pages/index.js (or app/page.js for App Router)
 "use client"; // Add this if using App Router
-
+import { useProgress } from '@react-three/drei';
 import BirthdayCardSection from '@/components/BirthdayCardSection';
 import FinalGreetingSection from '@/components/FinalGreetingSection';
 import MemoryWallSection from '@/components/MemoryWallSection';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EnvelopeSection from './Envsec';
+import Loader from './Loader';
 
 export default function Home() {
-  const [ loading ] = useState(false);
-  const [birthdayPerson ] = useState({
-    name: "Friend",  // Replace with the name from your database or URL params
+  const { progress } = useProgress();
+  const [isReady, setIsReady] = useState(false);
+  const [loadStarted, setLoadStarted] = useState(false);
+
+  const [birthdayPerson] = useState({
+    name: "Friend",
     message: "I'm so grateful for your friendship. You make every day brighter just by being you. Here's to another amazing year!",
-    senderName: "Siddharth"  // Replace with the sender's name
+    senderName: "Siddharth"
   });
   
-  // Sample memories data - in production, load this from your database
+  // Sample memories data
   const memories = [
     {
       image: '/images/memory1.jpg',
@@ -33,35 +37,46 @@ export default function Home() {
       image: '/images/memory4.jpg',
       caption: 'Your graduation day. So proud of you!',
     },
-    // {
-    //   image: '/images/memory5.jpg',
-    //   caption: 'That crazy road trip where we got lost for 3 hours!',
-    // },
   ];
   
-  // Simulate loading effect
-  // useEffect(() => {
-  //   // In production, you'd fetch data here
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  // }, []);
+  useEffect(() => {
+    // Mark that loading has started (this helps with the fallback timer)
+    if (!loadStarted && progress > 0) {
+      setLoadStarted(true);
+    }
+    
+    // Consider content loaded when progress reaches 100%
+    if (progress === 100) {
+      setTimeout(() => setIsReady(true), 500);
+    }
+  }, [progress, loadStarted]);
   
-  if (loading) {
-    return (
-      <div className="h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-purple-300 to-pink-200">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-purple-700 mb-4"></div>
-        <p className="text-lg text-purple-800">Preparing your birthday surprise...</p>
-      </div>
-    );
-  }
+  // Separate effect for the fallback timer
+  useEffect(() => {
+    // Only start fallback timer after load has actually begun
+    if (!loadStarted) return;
+    
+    // Fallback: Force completion after 5 seconds if progress seems stuck
+    const fallbackTimer = setTimeout(() => {
+      console.log('Fallback timer triggered - progress was:', progress);
+      setIsReady(true);
+    }, 5000);
+    
+    return () => clearTimeout(fallbackTimer);
+  }, [loadStarted, progress]);
+
+  // Show loader until content is ready
+  if (!isReady) return <Loader />;
   
   return (
     <main className="relative">
       {/* Each section takes full viewport height */}
       <section id="welcome">
-        {/* <WelcomeSection name={birthdayPerson.name} /> */}
-        <EnvelopeSection name={birthdayPerson.name} senderName={birthdayPerson.senderName} message={birthdayPerson.message} />
+        <EnvelopeSection 
+          name={birthdayPerson.name} 
+          senderName={birthdayPerson.senderName} 
+          message={birthdayPerson.message} 
+        />
       </section>
       
       <section id="card">
@@ -77,11 +92,7 @@ export default function Home() {
           message="Hope this made your day a little brighter! Wishing you the best year ever!"
           name={birthdayPerson.senderName}
         />
-        
       </section>
-      
-      {/* Create Your Own Button - Fixed at the bottom */}
-      
     </main>
   );
 }

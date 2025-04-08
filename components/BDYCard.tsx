@@ -65,3 +65,5 @@ export default function BirthdayCard3D({ isOpen, onCardClick, ...props }: Birthd
     />
   );
 }
+
+useGLTF.preload('/models/birthday-card.glb');
