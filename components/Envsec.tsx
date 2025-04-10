@@ -13,26 +13,32 @@ type EnvelopeSectionProps = {
 };
 
 export default function EnvelopeSection({
-  name = 'Friend',
+  name = 'Saniya',
   senderName = 'Siddharth',
   message = "You're amazing! Hope your day is as special as you are!",
 }: EnvelopeSectionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const { width, height } = useWindowSize();
+  const [audioInstance, setAudioInstance] = useState<HTMLAudioElement | null>(null);
+  const [isMusicOn, setIsMusicOn] = useState(true);
+
 
   const handleOpen = () => {
-    if (isOpen) return; // prevent multiple taps
+    if (isOpen) return;
 
-    // Delay the "open" to match message reveal
     setTimeout(() => {
       setIsOpen(true);
       setShowMessage(true);
 
       const audio = new Audio('/sounds/open.mp3');
+      audio.loop = true;
       audio.play().catch((e) => console.log('Audio not played:', e));
-    }, 400); // 400ms delay to sync
+      setAudioInstance(audio); // Save audio reference
+    }, 400);
   };
+
+
 
   return (
     <div className="relative w-full h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-blue-900 to-black overflow-hidden">
@@ -68,10 +74,10 @@ export default function EnvelopeSection({
           <p className="text-xl text-center text-gray-700 leading-relaxed tracking-wide">
             {message}
           </p>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <p className="text-x text-center text-gray-700 leading-relaxed tracking-wide">
-            from <br/>
+            from <br />
             - {senderName}
           </p>
         </motion.div>
@@ -88,6 +94,25 @@ export default function EnvelopeSection({
           Tap the envelope to open your birthday wish 🎉
         </motion.div>
       )}
+
+      {isOpen && (
+        <button
+          onClick={() => {
+            if (!audioInstance) return;
+            if (isMusicOn) {
+              audioInstance.pause();
+            } else {
+              audioInstance.play().catch((e) => console.log('Audio replay failed:', e));
+            }
+            setIsMusicOn(!isMusicOn);
+          }}
+          className="fixed bottom-8 right-6 bg-pink-500 text-white p-3 rounded-full shadow-lg hover:bg-pink-600 transition z-50"
+        >
+          {isMusicOn ? '🔇' : '🔊'}
+          {/* or use: <Pause /> / <Play /> if using lucide-react */}
+        </button>
+      )}
+
     </div>
   );
 }
