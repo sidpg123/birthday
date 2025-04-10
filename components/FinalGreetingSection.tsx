@@ -1,13 +1,13 @@
 'use client';
 import { Playfair_Display } from 'next/font/google';
 
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Stars, Text, PerspectiveCamera, Center } from '@react-three/drei';
+import { Stars, Text, PerspectiveCamera, Center, OrbitControls, Environment } from '@react-three/drei';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import * as THREE from 'three';
-
+import StarryBackground from './StarryBackground';
 
 // Initialize the font
 const playfair = Playfair_Display({
@@ -20,63 +20,6 @@ type FinalGreetingSectionProps = {
   name?: string;
 };
 
-// 3D Stars Background with slow rotation
-const StarryBackground = () => {
-  const starsRef = useRef<THREE.Group>(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (starsRef.current) {
-        starsRef.current.rotation.y += 0.0005;
-        starsRef.current.rotation.x += 0.0002;
-      }
-    }, 10);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <group ref={starsRef}>
-      <Stars
-        radius={100}
-        depth={50}
-        count={5000}
-        factor={4}
-        saturation={0.5}
-        fade
-        speed={0.5}
-      />
-    </group>
-  );
-};
-
-// Letter-by-letter animation component for 3D text
-// const AnimatedText3D = ({ text }: { text: string }) => {
-//   const letters = text.split('');
-  
-//   return (
-//     <group position={[0, 1.5, 0]}>
-//       {letters.map((letter, index) => (
-//         <Text
-//           key={index}
-//           position={[(index - letters.length / 2) * 0.5, 0, 0]}
-//           fontSize={0.5}
-//           color="white"
-//           anchorX="center"
-//           anchorY="middle"
-//           visible={true}
-//         >
-//           {letter}
-//           <meshStandardMaterial
-//             color="white"
-//             emissive="purple"
-//             emissiveIntensity={0.5 + Math.sin(Date.now() * 0.001 + index * 0.5) * 0.2}
-//           />
-//         </Text>
-//       ))}
-//     </group>
-//   );
-// };
 
 // Animated 3D Text Message with precise animation
 const GreetingMessage = ({ message }: { message: string }) => {
@@ -140,8 +83,8 @@ export default function FinalGreetingSection({
   const containerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const isInView = useInView(containerRef, { 
-    once: true, 
+  const isInView = useInView(containerRef, {
+    once: true,
     amount: 0.3 // Trigger when 30% of the component is visible
   });
 
@@ -163,20 +106,20 @@ export default function FinalGreetingSection({
     }
   };
 
-   // Detect scroll into view and start animation sequence
-   useEffect(() => {
+  // Detect scroll into view and start animation sequence
+  useEffect(() => {
     if (isInView && !hasScrolledIntoView) {
       setHasScrolledIntoView(true);
-      
+
       // Start animation sequence
       const timer = setTimeout(() => {
         setAnimationComplete(true);
       }, 2500);
-      
+
       const titleTimer = setTimeout(() => {
         setTitleAnimated(true);
       }, 1500);
-      
+
       return () => {
         clearTimeout(timer);
         clearTimeout(titleTimer);
@@ -189,11 +132,11 @@ export default function FinalGreetingSection({
     const timer = setTimeout(() => {
       setAnimationComplete(true);
     }, 2500);
-    
+
     const titleTimer = setTimeout(() => {
       setTitleAnimated(true);
     }, 1500);
-    
+
     return () => {
       clearTimeout(timer);
       clearTimeout(titleTimer);
@@ -239,18 +182,18 @@ export default function FinalGreetingSection({
                 <motion.span
                   key={index}
                   className={`text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 inline-block`}
-                  initial={{ 
-                    y: -100, 
+                  initial={{
+                    y: -100,
                     opacity: 0,
                     rotate: -10
                   }}
-                  animate={{ 
-                    y: hasScrolledIntoView ? 0 : -100, 
+                  animate={{
+                    y: hasScrolledIntoView ? 0 : -100,
                     opacity: hasScrolledIntoView ? 1 : 0,
                     rotate: hasScrolledIntoView ? 0 : -10
                   }}
-                  transition={{ 
-                    delay: hasScrolledIntoView ? (0.3 + index * 0.1) : 0, 
+                  transition={{
+                    delay: hasScrolledIntoView ? (0.3 + index * 0.1) : 0,
                     duration: 0.6,
                     type: "spring",
                     stiffness: 100
@@ -260,7 +203,7 @@ export default function FinalGreetingSection({
                 </motion.span>
               ))}
             </div>
-            
+
             {/* Sparkle effects around title once animated */}
             {titleAnimated && (
               <>
@@ -273,7 +216,7 @@ export default function FinalGreetingSection({
                       left: `${Math.random() * 100}%`,
                     }}
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ 
+                    animate={{
                       scale: [0, 1, 0],
                       opacity: [0, 1, 0]
                     }}
@@ -312,7 +255,7 @@ export default function FinalGreetingSection({
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 1.5, duration: 0.8 }}
               >
-                <Button 
+                <Button
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-full text-lg shadow-lg transform transition-all hover:scale-105 relative overflow-hidden group"
                   onClick={playAudio}
                 >
@@ -320,13 +263,13 @@ export default function FinalGreetingSection({
                   <span className="relative z-10">
                     {isAudioPlaying ? "♫ Playing Music ♫" : "Play Birthday Song"}
                   </span>
-                  <motion.span 
+                  <motion.span
                     className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover:opacity-100"
                     initial={false}
-                    animate={{ 
-                      x: isAudioPlaying ? ["100%", "0%"] : "100%" 
+                    animate={{
+                      x: isAudioPlaying ? ["100%", "0%"] : "100%"
                     }}
-                    transition={{ 
+                    transition={{
                       duration: isAudioPlaying ? 2 : 0,
                       repeat: isAudioPlaying ? Infinity : 0,
                       ease: "linear"
@@ -342,58 +285,57 @@ export default function FinalGreetingSection({
       {/* Enhanced floating particles effect */}
       {hasScrolledIntoView && (
         <div className="absolute inset-0 z-5 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className={`absolute rounded-full ${
-              i % 3 === 0 ? "bg-purple-500" : i % 3 === 1 ? "bg-pink-500" : "bg-blue-500"
-            } opacity-70`}
-            style={{
-              width: `${Math.random() * 10 + 5}px`,
-              height: `${Math.random() * 10 + 5}px`,
-            }}
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: window.innerHeight + 100
-            }}
-            animate={{
-              y: -100,
-              x: `calc(${Math.random() * 100}vw + ${Math.sin(i) * 100}px)`,
-            }}
-            transition={{
-              duration: 10 + Math.random() * 20,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-              ease: "linear"
-            }}
-          />
-        ))}
-      </div>
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className={`absolute rounded-full ${i % 3 === 0 ? "bg-purple-500" : i % 3 === 1 ? "bg-pink-500" : "bg-blue-500"
+                } opacity-70`}
+              style={{
+                width: `${Math.random() * 10 + 5}px`,
+                height: `${Math.random() * 10 + 5}px`,
+              }}
+              initial={{
+                x: Math.random() * window.innerWidth,
+                y: window.innerHeight + 100
+              }}
+              animate={{
+                y: -100,
+                x: `calc(${Math.random() * 100}vw + ${Math.sin(i) * 100}px)`,
+              }}
+              transition={{
+                duration: 10 + Math.random() * 20,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+                ease: "linear"
+              }}
+            />
+          ))}
+        </div>
 
       )}
-      
+
       {/* Footer with animation */}
-      <motion.div 
+      <motion.div
         className="absolute bottom-6 w-full text-center text-white z-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: hasScrolledIntoView ? 1 : 0 }}
         transition={{ delay: hasScrolledIntoView ? 3 : 0, duration: 1 }}
       >
-        <motion.p 
+        <motion.p
           className="font-light text-lg"
-          animate={{ 
+          animate={{
             y: hasScrolledIntoView ? [0, -5, 0] : 0,
-            transition: { 
-              duration: 4, 
+            transition: {
+              duration: 4,
               repeat: Infinity,
-              ease: "easeInOut" 
+              ease: "easeInOut"
             }
           }}
         >
           Made with{' '}
           <motion.span
             className="inline-block text-red-500"
-            animate={{ 
+            animate={{
               scale: hasScrolledIntoView ? [1, 1.2, 1] : 1,
               transition: { duration: 2, repeat: Infinity }
             }}

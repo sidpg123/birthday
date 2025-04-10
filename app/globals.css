@@ -3,6 +3,41 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes floatPetal {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-30vw) translateY(200vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(300vh) rotate(360deg); /* Increase to 120vh */
+    opacity: 0;
+  }
+}
+
+
+.animate-petals::before,
+.animate-petals::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url('/images/petal.png') no-repeat center;
+  background-size: contain;
+  animation: floatPetal 12s linear infinite;
+}
+
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

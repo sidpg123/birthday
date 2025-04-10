@@ -14,7 +14,7 @@ export default function Home() {
   const [loadStarted, setLoadStarted] = useState(false);
 
   const [birthdayPerson] = useState({
-    name: "Friend",
+    name: "Saniya",
     message: "I'm so grateful for your friendship. You make every day brighter just by being you. Here's to another amazing year!",
     senderName: "Siddharth"
   });
@@ -23,19 +23,19 @@ export default function Home() {
   const memories = [
     {
       image: '/images/memory1.jpg',
-      caption: "Remember that amazing dinner at Luigi's last year?",
+      caption: "The day you became celebrity. And our first photo!",
     },
     {
       image: '/images/memory2.jpg',
-      caption: 'That time we climbed Mount Rainier and you were terrified!',
+      caption: 'Built more than just a project — built memories that compile forever.',
     },
     {
       image: '/images/memory3.jpg',
-      caption: 'Beach day! You built the best sandcastle ever.',
+      caption: 'The ghibli art you never asked 😁.',
     },
     {
       image: '/images/memory4.jpg',
-      caption: 'Your graduation day. So proud of you!',
+      caption: "Image I stole from your insta highlights. Hope you won't get angry 🙃",
     },
   ];
   
