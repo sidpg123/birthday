@@ -15,10 +15,10 @@ export default function Home() {
 
   const [birthdayPerson] = useState({
     name: "Saniya",
-    message: "I'm so grateful for your friendship. You make every day brighter just by being you. Here's to another amazing year!",
+    message: "Happy Birthday! 🌷 You bring so much light and joy to everyone around you. Wishing you a wonderful day and an even better year ahead! ✨",
     senderName: "Siddharth"
   });
-  
+
   // Sample memories data
   const memories = [
     {
@@ -38,57 +38,57 @@ export default function Home() {
       caption: "Image I stole from your insta highlights. Hope you won't get angry 🙃",
     },
   ];
-  
+
   useEffect(() => {
     // Mark that loading has started (this helps with the fallback timer)
     if (!loadStarted && progress > 0) {
       setLoadStarted(true);
     }
-    
+
     // Consider content loaded when progress reaches 100%
     if (progress === 100) {
       setTimeout(() => setIsReady(true), 500);
     }
   }, [progress, loadStarted]);
-  
+
   // Separate effect for the fallback timer
   useEffect(() => {
     // Only start fallback timer after load has actually begun
     if (!loadStarted) return;
-    
+
     // Fallback: Force completion after 5 seconds if progress seems stuck
     const fallbackTimer = setTimeout(() => {
       console.log('Fallback timer triggered - progress was:', progress);
       setIsReady(true);
     }, 5000);
-    
+
     return () => clearTimeout(fallbackTimer);
   }, [loadStarted, progress]);
 
   // Show loader until content is ready
   if (!isReady) return <Loader />;
-  
+
   return (
     <main className="relative">
       {/* Each section takes full viewport height */}
       <section id="welcome">
-        <EnvelopeSection 
-          name={birthdayPerson.name} 
-          senderName={birthdayPerson.senderName} 
-          message={birthdayPerson.message} 
+        <EnvelopeSection
+          name={birthdayPerson.name}
+          senderName={birthdayPerson.senderName}
+          message={birthdayPerson.message}
         />
       </section>
-      
+
       <section id="card">
         <BirthdayCardSection message={birthdayPerson.message} />
       </section>
-      
+
       <section id="memories">
         <MemoryWallSection memories={memories} />
       </section>
-      
+
       <section id="final-greeting">
-        <FinalGreetingSection 
+        <FinalGreetingSection
           message="Hope this made your day a little brighter! Wishing you the best year ever!"
           name={birthdayPerson.senderName}
         />
