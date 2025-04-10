@@ -20,7 +20,7 @@
     opacity: 1;
   }
   100% {
-    transform: translateY(300vh) rotate(360deg); /* Increase to 120vh */
+    transform: translateY(600vh) rotate(360deg); /* Increase to 120vh */
     opacity: 0;
   }
 }
