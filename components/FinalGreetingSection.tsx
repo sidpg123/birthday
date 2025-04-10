@@ -1,11 +1,11 @@
 'use client';
 import { Playfair_Display } from 'next/font/google';
 
-import { Suspense, useEffect, useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Stars, Text, PerspectiveCamera, Center, OrbitControls, Environment } from '@react-three/drei';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { Center, PerspectiveCamera, Text } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { AnimatePresence, motion, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import StarryBackground from './StarryBackground';
 
