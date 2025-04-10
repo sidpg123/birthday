@@ -98,10 +98,6 @@ const MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }) 
       image: '/images/memory3.jpg',
       caption: 'Beach day! You built the best sandcastle ever.',
     },
-    // {
-    //   image: '/images/memory4.jpg',
-    //   caption: 'Your graduation day. So proud of you!',
-    // },
   ];
 
   const memoriesToShow = memories.length > 0 ? memories : defaultMemories;
@@ -119,6 +115,7 @@ const MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }) 
       ref={containerRef}
       className="relative w-full min-h-screen py-20 overflow-hidden"
       style={{
+        overflow: 'visible',
         background: 'linear-gradient(to bottom, #ffebef, #ffd6e0, #e6b3d1)',
       }}
     >
@@ -132,8 +129,8 @@ const MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }) 
       />
 
       {/* Cherry Blossom Petals Animation - Fixed Version */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {Array.from({ length: 150 }).map((_, i) => {
+      <div className="absolute inset-0  z-0 pointer-events-none overflow-hidden">
+        {Array.from({ length: 450 }).map((_, i) => {
           // Use modulo to cycle through available petal images
           const petalImage = petalImages[i % petalImages.length];
           const size = 10 + Math.random() * 15; // Different sized petals
@@ -144,7 +141,7 @@ const MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }) 
               key={i}
               className="absolute"
               style={{
-                top: `${Math.random() * -20}%`, // Start further above the viewport
+                top: `${Math.random() * -10}%`, // Start further above the viewport
                 left: `${Math.random() * 100}%`,
                 width: `${size}px`,
                 height: `${size}px`,
@@ -152,10 +149,10 @@ const MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }) 
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
                 opacity: 0.7 + Math.random() * 0.3,
-                animation: `fall ${8 + Math.random() * 12}s linear infinite`,
+                animation: `fall ${20 + Math.random() * 12}s linear infinite`,
                 animationDelay: `${Math.random() * 20}s`,
                 transform: `rotate(${Math.random() * 360}deg)`,
-                zIndex: 5
+                zIndex: 10
               }}
             />
           );
