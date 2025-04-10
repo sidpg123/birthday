@@ -77,7 +77,7 @@ export default function EnvelopeSection({
           <br />
           <br />
           <p className="text-x text-center text-gray-700 leading-relaxed tracking-wide">
-            from <br />
+          With all my best wishes,<br />
             - {senderName}
           </p>
         </motion.div>
