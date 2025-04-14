@@ -130,7 +130,7 @@ const MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }) 
 
       {/* Cherry Blossom Petals Animation - Fixed Version */}
       <div className="absolute inset-0  z-0 pointer-events-none overflow-hidden">
-        {Array.from({ length: 450 }).map((_, i) => {
+        {Array.from({ length: 200 }).map((_, i) => {
           // Use modulo to cycle through available petal images
           const petalImage = petalImages[i % petalImages.length];
           const size = 10 + Math.random() * 15; // Different sized petals
