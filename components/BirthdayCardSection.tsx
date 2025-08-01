@@ -1,3 +1,4 @@
+"use client"
 import {
   Environment,
   OrbitControls,
@@ -117,7 +118,7 @@ const BirthdayCardSection: React.FC<BirthdayCardSectionProps> = ({
             // Removed minAzimuthAngle and maxAzimuthAngle to allow full rotation
             />
             <Suspense fallback={null}>
-            <BirthdayCard3D isOpen={isOpen} onCardClick={handleCardClick} />
+            <BirthdayCard3D isOpen={isOpen}photoUrl='/images/gautam.jpg' onCardClick={handleCardClick} />
             </Suspense>
             <Environment preset="sunset" />
           </Canvas>
