@@ -1,6 +1,5 @@
-import { generateUploadUrl } from "@/services/s3.service";
-import { NextRequest, NextResponse } from "next/server";
 import db from "@/prisma/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
     
 

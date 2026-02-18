@@ -31,6 +31,7 @@ export type WishMinAggregateOutputType = {
   recipientName: string | null
   senderName: string | null
   message: string | null
+  envelopeImageUrl: string | null
   createdAt: Date | null
   expiresAt: Date | null
 }
@@ -42,6 +43,7 @@ export type WishMaxAggregateOutputType = {
   recipientName: string | null
   senderName: string | null
   message: string | null
+  envelopeImageUrl: string | null
   createdAt: Date | null
   expiresAt: Date | null
 }
@@ -53,6 +55,7 @@ export type WishCountAggregateOutputType = {
   recipientName: number
   senderName: number
   message: number
+  envelopeImageUrl: number
   createdAt: number
   expiresAt: number
   _all: number
@@ -66,6 +69,7 @@ export type WishMinAggregateInputType = {
   recipientName?: true
   senderName?: true
   message?: true
+  envelopeImageUrl?: true
   createdAt?: true
   expiresAt?: true
 }
@@ -77,6 +81,7 @@ export type WishMaxAggregateInputType = {
   recipientName?: true
   senderName?: true
   message?: true
+  envelopeImageUrl?: true
   createdAt?: true
   expiresAt?: true
 }
@@ -88,6 +93,7 @@ export type WishCountAggregateInputType = {
   recipientName?: true
   senderName?: true
   message?: true
+  envelopeImageUrl?: true
   createdAt?: true
   expiresAt?: true
   _all?: true
@@ -172,6 +178,7 @@ export type WishGroupByOutputType = {
   recipientName: string | null
   senderName: string | null
   message: string | null
+  envelopeImageUrl: string | null
   createdAt: Date
   expiresAt: Date | null
   _count: WishCountAggregateOutputType | null
@@ -204,6 +211,7 @@ export type WishWhereInput = {
   recipientName?: Prisma.StringNullableFilter<"Wish"> | string | null
   senderName?: Prisma.StringNullableFilter<"Wish"> | string | null
   message?: Prisma.StringNullableFilter<"Wish"> | string | null
+  envelopeImageUrl?: Prisma.StringNullableFilter<"Wish"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Wish"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Wish"> | Date | string | null
   memories?: Prisma.MemoryListRelationFilter
@@ -216,6 +224,7 @@ export type WishOrderByWithRelationInput = {
   recipientName?: Prisma.SortOrderInput | Prisma.SortOrder
   senderName?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  envelopeImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   memories?: Prisma.MemoryOrderByRelationAggregateInput
@@ -231,6 +240,7 @@ export type WishWhereUniqueInput = Prisma.AtLeast<{
   recipientName?: Prisma.StringNullableFilter<"Wish"> | string | null
   senderName?: Prisma.StringNullableFilter<"Wish"> | string | null
   message?: Prisma.StringNullableFilter<"Wish"> | string | null
+  envelopeImageUrl?: Prisma.StringNullableFilter<"Wish"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Wish"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Wish"> | Date | string | null
   memories?: Prisma.MemoryListRelationFilter
@@ -243,6 +253,7 @@ export type WishOrderByWithAggregationInput = {
   recipientName?: Prisma.SortOrderInput | Prisma.SortOrder
   senderName?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  envelopeImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.WishCountOrderByAggregateInput
@@ -260,6 +271,7 @@ export type WishScalarWhereWithAggregatesInput = {
   recipientName?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
   senderName?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
   message?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
+  envelopeImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Wish"> | Date | string
   expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Wish"> | Date | string | null
 }
@@ -271,6 +283,7 @@ export type WishCreateInput = {
   recipientName?: string | null
   senderName?: string | null
   message?: string | null
+  envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
   memories?: Prisma.MemoryCreateNestedManyWithoutWishInput
@@ -283,6 +296,7 @@ export type WishUncheckedCreateInput = {
   recipientName?: string | null
   senderName?: string | null
   message?: string | null
+  envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
   memories?: Prisma.MemoryUncheckedCreateNestedManyWithoutWishInput
@@ -295,6 +309,7 @@ export type WishUpdateInput = {
   recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memories?: Prisma.MemoryUpdateManyWithoutWishNestedInput
@@ -307,6 +322,7 @@ export type WishUncheckedUpdateInput = {
   recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memories?: Prisma.MemoryUncheckedUpdateManyWithoutWishNestedInput
@@ -319,6 +335,7 @@ export type WishCreateManyInput = {
   recipientName?: string | null
   senderName?: string | null
   message?: string | null
+  envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
 }
@@ -330,6 +347,7 @@ export type WishUpdateManyMutationInput = {
   recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -341,6 +359,7 @@ export type WishUncheckedUpdateManyInput = {
   recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -352,6 +371,7 @@ export type WishCountOrderByAggregateInput = {
   recipientName?: Prisma.SortOrder
   senderName?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  envelopeImageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
 }
@@ -363,6 +383,7 @@ export type WishMaxOrderByAggregateInput = {
   recipientName?: Prisma.SortOrder
   senderName?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  envelopeImageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
 }
@@ -374,6 +395,7 @@ export type WishMinOrderByAggregateInput = {
   recipientName?: Prisma.SortOrder
   senderName?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  envelopeImageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
 }
@@ -424,6 +446,7 @@ export type WishCreateWithoutMemoriesInput = {
   recipientName?: string | null
   senderName?: string | null
   message?: string | null
+  envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
 }
@@ -435,6 +458,7 @@ export type WishUncheckedCreateWithoutMemoriesInput = {
   recipientName?: string | null
   senderName?: string | null
   message?: string | null
+  envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
 }
@@ -462,6 +486,7 @@ export type WishUpdateWithoutMemoriesInput = {
   recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -473,6 +498,7 @@ export type WishUncheckedUpdateWithoutMemoriesInput = {
   recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -515,6 +541,7 @@ export type WishSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   recipientName?: boolean
   senderName?: boolean
   message?: boolean
+  envelopeImageUrl?: boolean
   createdAt?: boolean
   expiresAt?: boolean
   memories?: boolean | Prisma.Wish$memoriesArgs<ExtArgs>
@@ -528,6 +555,7 @@ export type WishSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   recipientName?: boolean
   senderName?: boolean
   message?: boolean
+  envelopeImageUrl?: boolean
   createdAt?: boolean
   expiresAt?: boolean
 }, ExtArgs["result"]["wish"]>
@@ -539,6 +567,7 @@ export type WishSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   recipientName?: boolean
   senderName?: boolean
   message?: boolean
+  envelopeImageUrl?: boolean
   createdAt?: boolean
   expiresAt?: boolean
 }, ExtArgs["result"]["wish"]>
@@ -550,11 +579,12 @@ export type WishSelectScalar = {
   recipientName?: boolean
   senderName?: boolean
   message?: boolean
+  envelopeImageUrl?: boolean
   createdAt?: boolean
   expiresAt?: boolean
 }
 
-export type WishOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "status" | "recipientName" | "senderName" | "message" | "createdAt" | "expiresAt", ExtArgs["result"]["wish"]>
+export type WishOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "status" | "recipientName" | "senderName" | "message" | "envelopeImageUrl" | "createdAt" | "expiresAt", ExtArgs["result"]["wish"]>
 export type WishInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   memories?: boolean | Prisma.Wish$memoriesArgs<ExtArgs>
   _count?: boolean | Prisma.WishCountOutputTypeDefaultArgs<ExtArgs>
@@ -574,6 +604,7 @@ export type $WishPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     recipientName: string | null
     senderName: string | null
     message: string | null
+    envelopeImageUrl: string | null
     createdAt: Date
     expiresAt: Date | null
   }, ExtArgs["result"]["wish"]>
@@ -1006,6 +1037,7 @@ export interface WishFieldRefs {
   readonly recipientName: Prisma.FieldRef<"Wish", 'String'>
   readonly senderName: Prisma.FieldRef<"Wish", 'String'>
   readonly message: Prisma.FieldRef<"Wish", 'String'>
+  readonly envelopeImageUrl: Prisma.FieldRef<"Wish", 'String'>
   readonly createdAt: Prisma.FieldRef<"Wish", 'DateTime'>
   readonly expiresAt: Prisma.FieldRef<"Wish", 'DateTime'>
 }

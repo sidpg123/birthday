@@ -7,7 +7,7 @@
 generator client {
   provider = "prisma-client"
   // output   = "../lib/generated/prisma"
-   output   = "../app/generated/prisma"
+  output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -22,29 +22,26 @@ enum WishStatus {
 }
 
 model Wish {
-  id            String   @id @default(uuid())
-  slug          String?  @unique
-  status        WishStatus @default(draft)
+  id     String     @id @default(uuid())
+  slug   String?    @unique
+  status WishStatus @default(draft)
 
-  recipientName String?
-  senderName    String?
-  message       String?
+  recipientName    String?
+  senderName       String?
+  message          String?
+  envelopeImageUrl String?
+  createdAt        DateTime  @default(now())
+  expiresAt        DateTime?
 
-  createdAt     DateTime @default(now())
-  expiresAt     DateTime?
-
-  memories      Memory[]
+  memories Memory[]
 }
 
 model Memory {
-  id        String @id @default(uuid())
-  imageUrl  String
-  caption   String?
-  order     Int
+  id       String  @id @default(uuid())
+  imageUrl String
+  caption  String?
+  order    Int
 
-  wishId    String
-  wish      Wish @relation(fields: [wishId], references: [id], onDelete: Cascade)
+  wishId String
+  wish   Wish   @relation(fields: [wishId], references: [id], onDelete: Cascade)
 }
-
-
-

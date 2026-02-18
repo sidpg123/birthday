@@ -13,13 +13,14 @@ interface CreateWishFormData {
     recipientName: string;
     wishId: string;
     message: string;
+    envelopeImageUrl: string;
     memories: MemoryInput[];
 }
 
 // This route handles both creating a new wish session (GET) and publishing a wish (POST)
 
 export async function POST(req: NextRequest) {
-    const { senderName, message, recipientName, memories, wishId }: CreateWishFormData = await req.json();;
+    const { senderName, message, recipientName, memories, wishId, envelopeImageUrl }: CreateWishFormData = await req.json();;
 
     if (!senderName || !message || !recipientName || !wishId) {
         throw new Error("Missing required fields");
@@ -42,6 +43,7 @@ export async function POST(req: NextRequest) {
         data: {
             senderName,
             recipientName,
+            envelopeImageUrl,
             message,
             status: "published",
             slug,

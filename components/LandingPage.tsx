@@ -138,7 +138,6 @@ export default function LandingPage() {
                                 priority
                             />
 
-                            {/* Sparkles */}
                             <div className="absolute top-4 right-4 text-4xl animate-bounce">✨</div>
                             <div
                                 className="absolute bottom-4 left-4 text-3xl animate-bounce"

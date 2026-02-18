@@ -605,6 +605,7 @@ export const WishScalarFieldEnum = {
   recipientName: 'recipientName',
   senderName: 'senderName',
   message: 'message',
+  envelopeImageUrl: 'envelopeImageUrl',
   createdAt: 'createdAt',
   expiresAt: 'expiresAt'
 } as const

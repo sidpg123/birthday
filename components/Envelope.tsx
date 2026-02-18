@@ -80,7 +80,7 @@ export default function Home() {
       </section>
 
       <section id="card">
-        <BirthdayCardSection message={birthdayPerson.message} />
+        <BirthdayCardSection photoUrl='' message={birthdayPerson.message} />
       </section>
 
       <section id="memories">

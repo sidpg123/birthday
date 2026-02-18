@@ -1,3 +1,4 @@
+"use client"
 import {
   Environment,
   OrbitControls,
@@ -10,11 +11,10 @@ import BirthdayCard3D from './BDYCard';
 
 type BirthdayCardSectionProps = {
   message?: string;
+  photoUrl: string;
 };
 
-const BirthdayCardSection: React.FC<BirthdayCardSectionProps> = ({
-  // message = 'Wish you joy, laughter, and all the love in the world on your special day!'
-}) => {
+const BirthdayCardSection: React.FC<BirthdayCardSectionProps> = ({photoUrl}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([0, 2, 6]);
   const animationRef = useRef<number>(0);
@@ -117,7 +117,7 @@ const BirthdayCardSection: React.FC<BirthdayCardSectionProps> = ({
             // Removed minAzimuthAngle and maxAzimuthAngle to allow full rotation
             />
             <Suspense fallback={null}>
-            <BirthdayCard3D isOpen={isOpen} onCardClick={handleCardClick} />
+            <BirthdayCard3D isOpen={isOpen} photoUrl={photoUrl} onCardClick={handleCardClick} />
             </Suspense>
             <Environment preset="sunset" />
           </Canvas>

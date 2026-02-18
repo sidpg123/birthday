@@ -46,7 +46,7 @@ export default function WishClient({ wish }: any) {
       </section>
 
       <section id="card">
-        <BirthdayCardSection message={wish.message} />
+        <BirthdayCardSection message={wish.message} photoUrl={wish.envelopeImageUrl} />
       </section>
 
       <section id="memories">

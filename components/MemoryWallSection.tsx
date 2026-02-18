@@ -111,7 +111,7 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ image, caption, index }) => {
       <Card className="overflow-hidden shadow-lg">
         <CardContent className="p-0">
           <div className="relative w-full">
-            <Image 
+            <img 
               src={image} 
               alt={caption} 
               width={320} 

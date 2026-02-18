@@ -2,16 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { ImagePlus, Loader2, PartyPopper, Upload, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { toast } from "sonner";
-import { ImagePlus, X, Sparkles, PartyPopper, Upload, Loader2 } from "lucide-react";
+import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     Form,
     FormControl,
@@ -20,8 +19,9 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 
 import { publishWish } from "@/lib/api/create";
 import { getUploadUrl } from "@/lib/api/s3";
@@ -53,19 +53,19 @@ interface MemoryState {
 /* ─────────────────── Upload helper ─────────────────── */
 
 // Replace the helper to call getUploadUrl directly, not via mutation
-async function presignAndUpload(key: string, file: File): Promise<string> {
-    const res = await getUploadUrl({ key });
-    const { uploadUrl } = res.data;
+// async function presignAndUpload(key: string, file: File): Promise<string> {
+//     const res = await getUploadUrl({ key });
+//     const { uploadUrl } = res.data;
 
-    const put = await fetch(uploadUrl, {
-        method: "PUT",
-        headers: { "Content-Type": file.type },
-        body: file,
-    });
-    if (!put.ok) throw new Error(`S3 PUT failed for ${key}`);
+//     const put = await fetch(uploadUrl, {
+//         method: "PUT",
+//         headers: { "Content-Type": file.type },
+//         body: file,
+//     });
+//     if (!put.ok) throw new Error(`S3 PUT failed for ${key}`);
 
-    return key; // ← just return the key, that's all you need
-}
+//     return key; // ← just return the key, that's all you need
+// }
 
 /* ─────────────────── Component ─────────────────── */
 
@@ -73,6 +73,7 @@ export default function CreateWishPage() {
     const [wishId, setWishId] = useState<string | null>(null);
     const [envelopePreview, setEnvelopePreview] = useState<string | null>(null);
     const [published, setPublished] = useState(false);
+    const [slug, setSlug] = useState<string | null>(null);
     const envelopeInputRef = useRef<HTMLInputElement | null>(null);
 
     const [memories, setMemories] = useState<MemoryState[]>(
@@ -150,25 +151,52 @@ export default function CreateWishPage() {
             // Prepare memory upload tasks (only slots with files)
             const memoryTasks = memories
                 .map((mem, i) => ({ mem, i }))
-                .filter(({ mem }) => !!mem.file);
+                .filter(({ mem }) => !!mem.file)
+                .map(({ mem, i }) => ({
+                    mem,
+                    i,
+                    key: `wishes/${wishId}/${i}.${mem.file!.name.split(".").pop()}`
+                }));
 
-            // 🚀 All uploads fire simultaneously
-            const [envelopUpload, ...memoryKeys] = await Promise.all([
-                presignAndUpload(envelopeKey, envelopeFile),
-                ...memoryTasks.map(({ mem, i }) => {
-                    const ext = mem.file!.name.split(".").pop();
-                    const key = `wishes/${wishId}/${i}.${ext}`;
-                    return presignAndUpload(key, mem.file!);
+            console.log("Memory tasks with keys:", JSON.stringify(memoryTasks));
+
+            // 2. Get ALL presigned URLs in parallel first
+            const [envelopeUrlRes, ...uploadUrl] = await Promise.all([
+                getUploadUrl({
+                    key: `wishes/${wishId}/envelope.${envelopeFile.name.split(".").pop()}`,
+                    // contentType: envelopeFile.type
                 }),
+                ...memoryTasks.map(({ mem, i, key }) =>
+                    getUploadUrl({
+                        // key: `wishes/${wishId}/${i}.${mem.file!.name.split(".").pop()}`,
+                        key
+                        // contentType: mem.file!.type
+                    })
+                ),
             ]);
 
-            // envelopeKey and memoryKeys are already the S3 keys, pass directly to publish
+            console.log("Received presigned URLs:", {
+                envelopeUrl: envelopeUrlRes.data.uploadUrl,
+                memoryUploadUrls: uploadUrl.map((res) => res.data.uploadUrl),
+            });
 
-            console.log("All files uploaded:", { envelopeKey, memoryKeys });
-            // Map uploaded URLs back to memory metadata
+            await Promise.all([
+                fetch(envelopeUrlRes.data.uploadUrl, {
+                    method: "PUT",
+                    headers: { "Content-Type": envelopeFile.type },
+                    body: envelopeFile,
+                }),
+                ...memoryTasks.map(({ mem }, idx) =>
+                    fetch(uploadUrl[idx].data.uploadUrl, {
+                        method: "PUT",
+                        headers: { "Content-Type": mem.file!.type },
+                        body: mem.file!,
+                    })
+                ),
+            ]);
 
-            const uploadedMemories = memoryTasks.map(({ mem, i }, idx) => ({
-                imageUrl: memoryKeys[idx],
+            const uploadedMemories = memoryTasks.map(({ mem, i, key }, idx) => ({
+                imageUrl: key,
                 caption: mem.caption,
                 order: i,
             }));
@@ -183,9 +211,13 @@ export default function CreateWishPage() {
                 envelopeImageUrl: envelopeKey,
                 memories: uploadedMemories,
             });
+            setSlug(result.slug);
+            console.log("Slug set is: ", slug)
+
             console.log(result);
             toast.dismiss(toastId);
         } catch (error) {
+            console.log("error occured", error)
             toast.error("Upload failed", {
                 id: toastId,
                 description: "One or more files couldn't be uploaded. Please try again.",
@@ -235,6 +267,10 @@ export default function CreateWishPage() {
                         </h2>
                         <p className="text-rose-400 text-sm">
                             Your birthday wish is live and ready to share.
+                        </p>
+                        <p>
+                            You can access it at:
+                            <a href={`${window.location.origin}/wish/${slug}`} className="text-rose-600 hover:underline">{window.location.origin}/wish/{slug}</a> <br />
                         </p>
                     </CardContent>
                 </Card>
