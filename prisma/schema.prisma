@@ -5,7 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  // output   = "../lib/generated/prisma"
+   output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -13,12 +15,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum WishStatus {
+  draft
+  published
+  expired
+}
 
 model Wish {
-  id        String   @id @default(uuid()) // Unique ID
-  name      String   // Birthday person's name
-  message   String   // Custom message
-  sender    String   // Sender's name
-  images    String[] // Optional: Memory wall images
-  createdAt DateTime @default(now()) // Auto-deletion timestamp
+  id            String   @id @default(uuid())
+  slug          String?  @unique
+  status        WishStatus @default(draft)
+
+  recipientName String?
+  senderName    String?
+  message       String?
+
+  createdAt     DateTime @default(now())
+  expiresAt     DateTime?
+
+  memories      Memory[]
 }
+
+model Memory {
+  id        String @id @default(uuid())
+  imageUrl  String
+  caption   String?
+  order     Int
+
+  wishId    String
+  wish      Wish @relation(fields: [wishId], references: [id], onDelete: Cascade)
+}
+
+
+

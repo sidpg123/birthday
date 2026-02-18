@@ -2,17 +2,20 @@ version: "3.9"
 
 services:
   postgres:
-    image: postgres:latest
-    container_name: birthday_db
-    restart: unless-stopped
+    image: postgres:15
+    container_name: birthday_postgres
+    restart: always
+
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: birthday_wishes
+      POSTGRES_DB: birthday_app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
     ports:
       - "5432:5432"
+
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  pgdata:
+  postgres_data:

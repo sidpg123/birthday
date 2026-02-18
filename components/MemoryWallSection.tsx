@@ -26,9 +26,57 @@ interface MemoryWallSectionProps {
 }
 
 // === Memory Card Component ===
+// const MemoryCard: React.FC<MemoryCardProps> = ({ image, caption, index }) => {
+//   const cardRef = useRef<HTMLDivElement | null>(null);
+
+//   useEffect(() => {
+//     if (!cardRef.current) return;
+
+//     gsap.fromTo(
+//       cardRef.current,
+//       {
+//         opacity: 0,
+//         y: 50,
+//         rotate: index % 2 === 0 ? -5 : 5,
+//       },
+//       {
+//         opacity: 1,
+//         y: 0,
+//         rotate: index % 2 === 0 ? 2 : -2,
+//         duration: 1,
+//         ease: 'power2.out',
+//         scrollTrigger: {
+//           trigger: cardRef.current,
+//           start: 'top bottom-=100',
+//           end: 'bottom center',
+//           toggleActions: 'play none none reverse',
+//         },
+//       }
+//     );
+//   }, [index]);
+
+//   return (
+//     <div
+//       ref={cardRef}
+//       className={`w-64 md:w-80 mx-auto mb-12 ${index % 2 === 0 ? 'md:ml-12' : 'md:mr-12'}`}
+//     >
+//       <Card className="overflow-hidden shadow-lg">
+//         <CardContent className="p-0">
+//           <div className= {`relative w-full aspect-[4/5] ${index === 1 ? 'h-36' : ''} `}>
+//             <Image src={image} alt={caption} fill className="object-cover    " />
+//           </div>
+//           <div className="p-4 bg-white">
+//             <p className="text-gray-800 text-sm md:text-base">{caption}</p>
+//           </div>
+//         </CardContent>
+//       </Card>
+//     </div>
+//   );
+// };
+
 const MemoryCard: React.FC<MemoryCardProps> = ({ image, caption, index }) => {
   const cardRef = useRef<HTMLDivElement | null>(null);
-
+  console.log("MemeoryCard ", image)
   useEffect(() => {
     if (!cardRef.current) return;
 
@@ -62,8 +110,14 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ image, caption, index }) => {
     >
       <Card className="overflow-hidden shadow-lg">
         <CardContent className="p-0">
-          <div className= {`relative h-96 w-full ${index === 1 ? 'h-36' : ''} `}>
-            <Image src={image} alt={caption} fill className={`  ${index !== 1 ? 'object-cover': '' } `} />
+          <div className="relative w-full">
+            <Image 
+              src={image} 
+              alt={caption} 
+              width={320} 
+              height={400} 
+              className="w-full h-auto object-cover"
+            />
           </div>
           <div className="p-4 bg-white">
             <p className="text-gray-800 text-sm md:text-base">{caption}</p>
@@ -74,10 +128,12 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ image, caption, index }) => {
   );
 };
 
-// === Main Memory Wall Section ===
-const MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
+
+// === Main Memory Wall Section ===
+const   MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }: MemoryWallSectionProps) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  console.log("Memoreis", memories);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start end', 'end start'],

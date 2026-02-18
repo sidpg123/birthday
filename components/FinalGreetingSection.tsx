@@ -249,7 +249,7 @@ export default function FinalGreetingSection({
                 </Canvas>
               </div>
 
-              <motion.div
+              {/* <motion.div
                 className="flex justify-center"
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -259,7 +259,6 @@ export default function FinalGreetingSection({
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-full text-lg shadow-lg transform transition-all hover:scale-105 relative overflow-hidden group"
                   onClick={playAudio}
                 >
-                  {/* Button animation effects */}
                   <span className="relative z-10">
                     {isAudioPlaying ? "♫ Playing Music ♫" : "Play Birthday Song"}
                   </span>
@@ -276,7 +275,7 @@ export default function FinalGreetingSection({
                     }}
                   />
                 </Button>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
           )}
         </motion.div>
@@ -346,11 +345,11 @@ export default function FinalGreetingSection({
         </motion.p>
       </motion.div>
 
-      <div className="absolute bottom-16 right-6 z-50">
+      {/* <div className="absolute bottom-16 right-6 z-50">
         <Button className="bg-pink-500 hover:bg-pink-600 text-white rounded-full px-4 py-2 shadow-lg">
           Create Your Own
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }
