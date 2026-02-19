@@ -2,12 +2,14 @@ import db from "@/prisma/prisma";
 import WishClient from "./WishClient";
 import { notFound } from "next/navigation";
 import { getSignedUrl } from '@aws-sdk/cloudfront-signer';
-interface PageProps {
-    params: { slug: string };
-}
 
-export default async function WishPage({ params }: PageProps) {
-    const { slug } = await params;
+export default async function WishPage({
+    params,
+}: {
+    params: Promise<{ slug: string }>;  // ← Promise<> wrapper here
+}) {
+    const { slug } = await params;  // ← await here
+
 
     const wishData = await db.wish.findFirst({
         where: { slug },

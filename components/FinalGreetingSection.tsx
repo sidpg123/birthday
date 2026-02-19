@@ -1,7 +1,6 @@
 'use client';
 import { Playfair_Display } from 'next/font/google';
 
-import { Button } from '@/components/ui/button';
 import { Center, PerspectiveCamera, Text } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
@@ -88,7 +87,7 @@ export default function FinalGreetingSection({
     amount: 0.3 // Trigger when 30% of the component is visible
   });
 
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  // const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [titleAnimated, setTitleAnimated] = useState(false);
   const [hasScrolledIntoView, setHasScrolledIntoView] = useState(false);
@@ -98,13 +97,13 @@ export default function FinalGreetingSection({
   const titleLetters = title.split("");
 
   // Play audio function with user interaction
-  const playAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.play()
-        .then(() => setIsAudioPlaying(true))
-        .catch((e) => console.log('Audio playback prevented:', e));
-    }
-  };
+  // const playAudio = () => {
+  //   if (audioRef.current) {
+  //     audioRef.current.play()
+  //       .then(() => setIsAudioPlaying(true))
+  //       .catch((e) => console.log('Audio playback prevented:', e));
+  //   }
+  // };
 
   // Detect scroll into view and start animation sequence
   useEffect(() => {
@@ -147,7 +146,7 @@ export default function FinalGreetingSection({
     <div
       ref={containerRef}
       className={`relative w-full h-screen bg-black overflow-hidden ${playfair.className}`}
-      onClick={playAudio}
+      // onClick={playAudio}
     >
       {/* Audio Element */}
       <audio

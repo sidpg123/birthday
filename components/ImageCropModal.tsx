@@ -1,6 +1,6 @@
 "use client";
 
-import Cropper from "react-easy-crop";
+import Cropper, { Area } from "react-easy-crop";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -17,15 +17,25 @@ export default function ImageCropModal({
   onCancel,
   onComplete,
 }: Props) {
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [crop, setCrop] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
-  const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
-    setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
+  const [zoom, setZoom] = useState<number>(1);
+
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+
+  const onCropComplete = useCallback(
+    (_: Area, croppedAreaPixels: Area) => {
+      setCroppedAreaPixels(croppedAreaPixels);
+    },
+    []
+  );
 
   async function createCroppedImage() {
+    if (!croppedAreaPixels) return;
+
     const img = new Image();
     img.src = image;
     await img.decode();
@@ -35,7 +45,10 @@ export default function ImageCropModal({
     canvas.height = croppedAreaPixels.height;
 
     const ctx = canvas.getContext("2d");
-    ctx?.drawImage(
+
+    if (!ctx) return;
+
+    ctx.drawImage(
       img,
       croppedAreaPixels.x,
       croppedAreaPixels.y,
@@ -47,9 +60,13 @@ export default function ImageCropModal({
       croppedAreaPixels.height
     );
 
-    canvas.toBlob((blob) => {
-      if (blob) onComplete(blob);
-    }, "image/jpeg", 0.9);
+    canvas.toBlob(
+      (blob) => {
+        if (blob) onComplete(blob);
+      },
+      "image/jpeg",
+      0.9
+    );
   }
 
   return (
@@ -71,7 +88,7 @@ export default function ImageCropModal({
           <Button variant="ghost" onClick={onCancel}>
             Cancel
           </Button>
-          <Button onClick={createCroppedImage}>
+          <Button type="button" onClick={createCroppedImage}>
             Crop & Save
           </Button>
         </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Memory, Wish } from "@/app/generated/prisma/client";
 import BirthdayCardSection from "@/components/BirthdayCardSection";
 import EnvelopeSection from "@/components/Envsec";
 import FinalGreetingSection from "@/components/FinalGreetingSection";
@@ -8,7 +9,12 @@ import MemoryWallSection from "@/components/MemoryWallSection";
 import { useProgress } from "@react-three/drei";
 import { useEffect, useState } from "react";
 
-export default function WishClient({ wish }: any) {
+type TWish = Wish & {
+  // Additional properties that are not in the original Wish type
+  memories: Memory[];
+};
+
+export default function WishClient({ wish }: { wish: TWish }) {
   const { progress } = useProgress();
   const [isReady, setIsReady] = useState(false);
   const [loadStarted, setLoadStarted] = useState(false);
@@ -46,16 +52,18 @@ export default function WishClient({ wish }: any) {
       </section>
 
       <section id="card">
-        <BirthdayCardSection message={wish.message} photoUrl={wish.envelopeImageUrl} />
+        <BirthdayCardSection message={wish.message} photoUrl={wish.envelopeImageUrl!} />
       </section>
 
       <section id="memories">
+        {wish.memories.length > 0 && (
         <MemoryWallSection
-          memories={wish.memories.map((m: any) => ({
+          memories={wish.memories.map((m) => ({
             image: m.imageUrl,
-            caption: m.caption,
+            caption: m.caption || "",
           }))}
         />
+        )}
       </section>
 
       <section id="final-greeting">

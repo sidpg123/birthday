@@ -25,6 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { publishWish } from "@/lib/api/create";
 import { getUploadUrl } from "@/lib/api/s3";
+import ImageCropModal from "@/components/ImageCropModal";
 
 /* ─────────────────── Schema ─────────────────── */
 
@@ -36,8 +37,8 @@ const schema = z.object({
         .min(10, "Message must be at least 10 characters")
         .max(500, "Message must be under 500 characters"),
     envelopImage: z
-        .any()
-        .refine((f) => f?.[0]?.type?.startsWith("image/"), {
+        .instanceof(File, { message: "Please upload an image" })
+        .refine((file) => file.type.startsWith("image/"), {
             message: "Please upload a valid image file",
         }),
 });
@@ -50,22 +51,6 @@ interface MemoryState {
     caption: string;
 }
 
-/* ─────────────────── Upload helper ─────────────────── */
-
-// Replace the helper to call getUploadUrl directly, not via mutation
-// async function presignAndUpload(key: string, file: File): Promise<string> {
-//     const res = await getUploadUrl({ key });
-//     const { uploadUrl } = res.data;
-
-//     const put = await fetch(uploadUrl, {
-//         method: "PUT",
-//         headers: { "Content-Type": file.type },
-//         body: file,
-//     });
-//     if (!put.ok) throw new Error(`S3 PUT failed for ${key}`);
-
-//     return key; // ← just return the key, that's all you need
-// }
 
 /* ─────────────────── Component ─────────────────── */
 
@@ -75,6 +60,8 @@ export default function CreateWishPage() {
     const [published, setPublished] = useState(false);
     const [slug, setSlug] = useState<string | null>(null);
     const envelopeInputRef = useRef<HTMLInputElement | null>(null);
+    const [cropImage, setCropImage] = useState<string | null>(null);
+
 
     const [memories, setMemories] = useState<MemoryState[]>(
         Array.from({ length: 4 }, () => ({ caption: "" }))
@@ -117,9 +104,9 @@ export default function CreateWishPage() {
     }, []);
 
     /* ── Get upload URL mutation ── */
-    const getUploadUrlMutation = useMutation({
-        mutationFn: getUploadUrl,
-    });
+    // const getUploadUrlMutation = useMutation({
+    //     mutationFn: getUploadUrl,
+    // });
 
     /* ── Publish mutation ── */
     const publishMutation = useMutation({
@@ -144,7 +131,7 @@ export default function CreateWishPage() {
         const toastId = toast.loading("Uploading files in parallel…");
 
         try {
-            const envelopeFile = values.envelopImage[0] as File;
+            const envelopeFile = values.envelopImage as File;
             const envelopeExt = envelopeFile.name.split(".").pop();
             const envelopeKey = `wishes/${wishId}/envelope.${envelopeExt}`;
 
@@ -166,7 +153,7 @@ export default function CreateWishPage() {
                     key: `wishes/${wishId}/envelope.${envelopeFile.name.split(".").pop()}`,
                     // contentType: envelopeFile.type
                 }),
-                ...memoryTasks.map(({ mem, i, key }) =>
+                ...memoryTasks.map(({ key }) =>
                     getUploadUrl({
                         // key: `wishes/${wishId}/${i}.${mem.file!.name.split(".").pop()}`,
                         key
@@ -195,7 +182,7 @@ export default function CreateWishPage() {
                 ),
             ]);
 
-            const uploadedMemories = memoryTasks.map(({ mem, i, key }, idx) => ({
+            const uploadedMemories = memoryTasks.map(({ mem, i, key }) => ({
                 imageUrl: key,
                 caption: mem.caption,
                 order: i,
@@ -305,7 +292,7 @@ export default function CreateWishPage() {
                                     <Badge variant="outline" className="text-rose-500 border-rose-200 bg-rose-50/80 font-mono text-[10px] h-5 px-1.5">
                                         01
                                     </Badge>
-                                    Who's this for?
+                                    {"Who's this for?"}
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-0">
@@ -315,7 +302,7 @@ export default function CreateWishPage() {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                                                Recipient's Name
+                                                {"Recipient's Name"}
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
@@ -410,13 +397,12 @@ export default function CreateWishPage() {
                                 <FormField
                                     control={form.control}
                                     name="envelopImage"
-                                    render={({ field: { onChange, value, ref, ...rest } }) => (
+                                    render={({ field: { onChange, ref} }) => (
                                         <FormItem>
                                             <FormControl>
                                                 <label
                                                     className={`group relative flex flex-col items-center justify-center border-2 border-dashed rounded-xl cursor-pointer transition-all overflow-hidden
-                            ${envelopePreview
-                                                            ? "border-amber-300 bg-amber-50/30"
+                                                        ${envelopePreview ? "border-amber-300 bg-amber-50/30"
                                                             : "border-slate-200 bg-slate-50/80 hover:border-rose-300 hover:bg-rose-50/40"
                                                         }`}
                                                 >
@@ -457,15 +443,38 @@ export default function CreateWishPage() {
                                                             ref(el);
                                                         }}
                                                         onChange={(e) => {
-                                                            onChange(e.target.files);
                                                             const file = e.target.files?.[0];
+
                                                             if (file) {
-                                                                if (envelopePreview) URL.revokeObjectURL(envelopePreview);
-                                                                setEnvelopePreview(URL.createObjectURL(file));
+                                                                onChange(e);
+                                                                form.setValue("envelopImage", file, {
+                                                                    shouldValidate: true,
+                                                                });
+
+                                                                setCropImage(URL.createObjectURL(file));
+
                                                             }
                                                         }}
-                                                        {...rest}
+
+                                                        // {...rest}
                                                     />
+                                                    {cropImage && (
+                                                        <ImageCropModal
+                                                            image={cropImage}
+                                                            aspect={4 / 5}   // 🔥 force 5:4 ratio
+                                                            onCancel={() => setCropImage(null)}
+                                                            onComplete={(blob) => {
+                                                                const file = new File([blob], "cropped.jpg", { type: "image/jpeg" });
+
+                                                                form.setValue("envelopImage", file, {
+                                                                    shouldValidate: true,
+                                                                });
+                                                                setEnvelopePreview(URL.createObjectURL(file));
+                                                                setCropImage(null);
+                                                            }}
+                                                        />
+                                                    )}
+
                                                 </label>
                                             </FormControl>
                                             <FormMessage className="text-xs" />
@@ -511,7 +520,7 @@ export default function CreateWishPage() {
                             </CardHeader>
                             <CardContent className="pt-0">
                                 <p className="text-[11px] text-slate-400 mb-4">
-                                    Upload up to 4 photos — they'll form a memory gallery inside the wish.
+                                    {"Upload up to 4 photos — they'll form a memory gallery inside the wish."}
                                 </p>
                                 <div className="grid grid-cols-2 gap-3">
                                     {memories.map((mem, i) => (

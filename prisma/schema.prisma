@@ -26,9 +26,9 @@ model Wish {
   slug   String?    @unique
   status WishStatus @default(draft)
 
-  recipientName    String?
-  senderName       String?
-  message          String?
+  recipientName    String
+  senderName       String
+  message          String
   envelopeImageUrl String?
   createdAt        DateTime  @default(now())
   expiresAt        DateTime?

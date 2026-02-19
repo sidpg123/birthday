@@ -17,12 +17,13 @@ const Envelope: React.FC<EnvelopeProps> = ({ name, isOpen, onOpen }) => {
   const letterRef = useRef<Group>(null);
 
   const envelopeProps = useSpring({
-    rotation: isOpen ? [0, 0, 0] : [0, 0, 0],
-    position: isOpen ? [0, -1, 0] : [0, 0, 0],
+    positionY: isOpen ? -1 : 0,
+    rotationX: 0,
   });
 
   const letterProps = useSpring({
-    position: isOpen ? [0, 1, 0.1] : [0, 0, -0.1],
+    positionY: isOpen ? 1 : 0,
+    positionZ: isOpen ? 0.1 : -0.1,
     scale: isOpen ? 1 : 0.8,
   });
 
@@ -44,7 +45,7 @@ const Envelope: React.FC<EnvelopeProps> = ({ name, isOpen, onOpen }) => {
           rotation={[-Math.PI / 2, 0, 0]}
           fontSize={0.3}
           color="#a83254"
-        //   font="/fonts/cursive.ttf"
+          //   font="/fonts/cursive.ttf"
           anchorX="center"
           anchorY="middle"
         >

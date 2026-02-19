@@ -175,9 +175,9 @@ export type WishGroupByOutputType = {
   id: string
   slug: string | null
   status: $Enums.WishStatus
-  recipientName: string | null
-  senderName: string | null
-  message: string | null
+  recipientName: string
+  senderName: string
+  message: string
   envelopeImageUrl: string | null
   createdAt: Date
   expiresAt: Date | null
@@ -208,9 +208,9 @@ export type WishWhereInput = {
   id?: Prisma.StringFilter<"Wish"> | string
   slug?: Prisma.StringNullableFilter<"Wish"> | string | null
   status?: Prisma.EnumWishStatusFilter<"Wish"> | $Enums.WishStatus
-  recipientName?: Prisma.StringNullableFilter<"Wish"> | string | null
-  senderName?: Prisma.StringNullableFilter<"Wish"> | string | null
-  message?: Prisma.StringNullableFilter<"Wish"> | string | null
+  recipientName?: Prisma.StringFilter<"Wish"> | string
+  senderName?: Prisma.StringFilter<"Wish"> | string
+  message?: Prisma.StringFilter<"Wish"> | string
   envelopeImageUrl?: Prisma.StringNullableFilter<"Wish"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Wish"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Wish"> | Date | string | null
@@ -221,9 +221,9 @@ export type WishOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  recipientName?: Prisma.SortOrderInput | Prisma.SortOrder
-  senderName?: Prisma.SortOrderInput | Prisma.SortOrder
-  message?: Prisma.SortOrderInput | Prisma.SortOrder
+  recipientName?: Prisma.SortOrder
+  senderName?: Prisma.SortOrder
+  message?: Prisma.SortOrder
   envelopeImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -237,9 +237,9 @@ export type WishWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.WishWhereInput[]
   NOT?: Prisma.WishWhereInput | Prisma.WishWhereInput[]
   status?: Prisma.EnumWishStatusFilter<"Wish"> | $Enums.WishStatus
-  recipientName?: Prisma.StringNullableFilter<"Wish"> | string | null
-  senderName?: Prisma.StringNullableFilter<"Wish"> | string | null
-  message?: Prisma.StringNullableFilter<"Wish"> | string | null
+  recipientName?: Prisma.StringFilter<"Wish"> | string
+  senderName?: Prisma.StringFilter<"Wish"> | string
+  message?: Prisma.StringFilter<"Wish"> | string
   envelopeImageUrl?: Prisma.StringNullableFilter<"Wish"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Wish"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Wish"> | Date | string | null
@@ -250,9 +250,9 @@ export type WishOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  recipientName?: Prisma.SortOrderInput | Prisma.SortOrder
-  senderName?: Prisma.SortOrderInput | Prisma.SortOrder
-  message?: Prisma.SortOrderInput | Prisma.SortOrder
+  recipientName?: Prisma.SortOrder
+  senderName?: Prisma.SortOrder
+  message?: Prisma.SortOrder
   envelopeImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -268,9 +268,9 @@ export type WishScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Wish"> | string
   slug?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
   status?: Prisma.EnumWishStatusWithAggregatesFilter<"Wish"> | $Enums.WishStatus
-  recipientName?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
-  senderName?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
-  message?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
+  recipientName?: Prisma.StringWithAggregatesFilter<"Wish"> | string
+  senderName?: Prisma.StringWithAggregatesFilter<"Wish"> | string
+  message?: Prisma.StringWithAggregatesFilter<"Wish"> | string
   envelopeImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Wish"> | Date | string
   expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Wish"> | Date | string | null
@@ -280,9 +280,9 @@ export type WishCreateInput = {
   id?: string
   slug?: string | null
   status?: $Enums.WishStatus
-  recipientName?: string | null
-  senderName?: string | null
-  message?: string | null
+  recipientName: string
+  senderName: string
+  message: string
   envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
@@ -293,9 +293,9 @@ export type WishUncheckedCreateInput = {
   id?: string
   slug?: string | null
   status?: $Enums.WishStatus
-  recipientName?: string | null
-  senderName?: string | null
-  message?: string | null
+  recipientName: string
+  senderName: string
+  message: string
   envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
@@ -306,9 +306,9 @@ export type WishUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumWishStatusFieldUpdateOperationsInput | $Enums.WishStatus
-  recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  senderName?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
   envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -319,9 +319,9 @@ export type WishUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumWishStatusFieldUpdateOperationsInput | $Enums.WishStatus
-  recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  senderName?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
   envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -332,9 +332,9 @@ export type WishCreateManyInput = {
   id?: string
   slug?: string | null
   status?: $Enums.WishStatus
-  recipientName?: string | null
-  senderName?: string | null
-  message?: string | null
+  recipientName: string
+  senderName: string
+  message: string
   envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
@@ -344,9 +344,9 @@ export type WishUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumWishStatusFieldUpdateOperationsInput | $Enums.WishStatus
-  recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  senderName?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
   envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -356,9 +356,9 @@ export type WishUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumWishStatusFieldUpdateOperationsInput | $Enums.WishStatus
-  recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  senderName?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
   envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -443,9 +443,9 @@ export type WishCreateWithoutMemoriesInput = {
   id?: string
   slug?: string | null
   status?: $Enums.WishStatus
-  recipientName?: string | null
-  senderName?: string | null
-  message?: string | null
+  recipientName: string
+  senderName: string
+  message: string
   envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
@@ -455,9 +455,9 @@ export type WishUncheckedCreateWithoutMemoriesInput = {
   id?: string
   slug?: string | null
   status?: $Enums.WishStatus
-  recipientName?: string | null
-  senderName?: string | null
-  message?: string | null
+  recipientName: string
+  senderName: string
+  message: string
   envelopeImageUrl?: string | null
   createdAt?: Date | string
   expiresAt?: Date | string | null
@@ -483,9 +483,9 @@ export type WishUpdateWithoutMemoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumWishStatusFieldUpdateOperationsInput | $Enums.WishStatus
-  recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  senderName?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
   envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -495,9 +495,9 @@ export type WishUncheckedUpdateWithoutMemoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumWishStatusFieldUpdateOperationsInput | $Enums.WishStatus
-  recipientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  senderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  senderName?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
   envelopeImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -601,9 +601,9 @@ export type $WishPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     slug: string | null
     status: $Enums.WishStatus
-    recipientName: string | null
-    senderName: string | null
-    message: string | null
+    recipientName: string
+    senderName: string
+    message: string
     envelopeImageUrl: string | null
     createdAt: Date
     expiresAt: Date | null
@@ -1258,7 +1258,7 @@ export type WishCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   /**
    * The data needed to create a Wish.
    */
-  data?: Prisma.XOR<Prisma.WishCreateInput, Prisma.WishUncheckedCreateInput>
+  data: Prisma.XOR<Prisma.WishCreateInput, Prisma.WishUncheckedCreateInput>
 }
 
 /**

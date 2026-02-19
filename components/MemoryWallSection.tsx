@@ -1,11 +1,10 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
+import { useRef } from 'react';
+import MemoryCard from './MemoryCard';
 
 // ScrollTrigger registration (client-side only)
 if (typeof window !== 'undefined') {
@@ -17,121 +16,17 @@ interface Memory {
   caption: string;
 }
 
-interface MemoryCardProps extends Memory {
-  index: number;
-}
+
 
 interface MemoryWallSectionProps {
   memories?: Memory[];
 }
 
-// === Memory Card Component ===
-// const MemoryCard: React.FC<MemoryCardProps> = ({ image, caption, index }) => {
-//   const cardRef = useRef<HTMLDivElement | null>(null);
-
-//   useEffect(() => {
-//     if (!cardRef.current) return;
-
-//     gsap.fromTo(
-//       cardRef.current,
-//       {
-//         opacity: 0,
-//         y: 50,
-//         rotate: index % 2 === 0 ? -5 : 5,
-//       },
-//       {
-//         opacity: 1,
-//         y: 0,
-//         rotate: index % 2 === 0 ? 2 : -2,
-//         duration: 1,
-//         ease: 'power2.out',
-//         scrollTrigger: {
-//           trigger: cardRef.current,
-//           start: 'top bottom-=100',
-//           end: 'bottom center',
-//           toggleActions: 'play none none reverse',
-//         },
-//       }
-//     );
-//   }, [index]);
-
-//   return (
-//     <div
-//       ref={cardRef}
-//       className={`w-64 md:w-80 mx-auto mb-12 ${index % 2 === 0 ? 'md:ml-12' : 'md:mr-12'}`}
-//     >
-//       <Card className="overflow-hidden shadow-lg">
-//         <CardContent className="p-0">
-//           <div className= {`relative w-full aspect-[4/5] ${index === 1 ? 'h-36' : ''} `}>
-//             <Image src={image} alt={caption} fill className="object-cover    " />
-//           </div>
-//           <div className="p-4 bg-white">
-//             <p className="text-gray-800 text-sm md:text-base">{caption}</p>
-//           </div>
-//         </CardContent>
-//       </Card>
-//     </div>
-//   );
-// };
-
-const MemoryCard: React.FC<MemoryCardProps> = ({ image, caption, index }) => {
-  const cardRef = useRef<HTMLDivElement | null>(null);
-  console.log("MemeoryCard ", image)
-  useEffect(() => {
-    if (!cardRef.current) return;
-
-    gsap.fromTo(
-      cardRef.current,
-      {
-        opacity: 0,
-        y: 50,
-        rotate: index % 2 === 0 ? -5 : 5,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        rotate: index % 2 === 0 ? 2 : -2,
-        duration: 1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: 'top bottom-=100',
-          end: 'bottom center',
-          toggleActions: 'play none none reverse',
-        },
-      }
-    );
-  }, [index]);
-
-  return (
-    <div
-      ref={cardRef}
-      className={`w-64 md:w-80 mx-auto mb-12 ${index % 2 === 0 ? 'md:ml-12' : 'md:mr-12'}`}
-    >
-      <Card className="overflow-hidden shadow-lg">
-        <CardContent className="p-0">
-          <div className="relative w-full">
-            <img 
-              src={image} 
-              alt={caption} 
-              width={320} 
-              height={400} 
-              className="w-full h-auto object-cover"
-            />
-          </div>
-          <div className="p-4 bg-white">
-            <p className="text-gray-800 text-sm md:text-base">{caption}</p>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-};
-
-
 
 // === Main Memory Wall Section ===
-const   MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }: MemoryWallSectionProps) => {
+const MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }: MemoryWallSectionProps) => {
+
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   console.log("Memoreis", memories);
   const { scrollYProgress } = useScroll({
@@ -157,7 +52,6 @@ const   MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }
   ];
 
   const memoriesToShow = memories.length > 0 ? memories : defaultMemories;
-
   // Create an array of different petal images
   const petalImages = [
     '/images/petal1.png',
@@ -175,6 +69,7 @@ const   MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }
         background: 'linear-gradient(to bottom, #ffebef, #ffd6e0, #e6b3d1)',
       }}
     >
+
       {/* Parallax Wooden Wall Background */}
       <motion.div
         className="absolute inset-0 z-0 bg-cover bg-center opacity-10"
@@ -213,9 +108,9 @@ const   MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }
             />
           );
         })}
-      </div>  
+      </div>
 
-      {/* Memory Content */}    
+      {/* Memory Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-pink-800 text-center mb-12 drop-shadow-md">
           Cherry Blossom Memories 🌸
@@ -223,7 +118,7 @@ const   MemoryWallSection: React.FC<MemoryWallSectionProps> = ({ memories = [] }
 
         <div className="space-y-8 md:space-y-16">
           {memoriesToShow.map((memory, index) => (
-            <MemoryCard key={index} image={memory.image} caption={memory.caption} index={index} />
+            <MemoryCard key={index} imageUrl={memory.image} caption={memory.caption} index={index} />
           ))}
         </div>
       </div>
