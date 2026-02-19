@@ -1,6 +1,8 @@
 // import {  } from "@prisma/client";
 
-import { PrismaClient } from "@/app/generated/prisma/client";
+import { PrismaClient } from '@prisma/client'
+
+// import { PrismaClient } from "@/app/generated/prisma/client";
 
 // import { PrismaClient } from "@/lib/generated/prisma/client";
 

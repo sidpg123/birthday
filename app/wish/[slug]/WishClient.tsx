@@ -1,11 +1,12 @@
 "use client";
 
-import { Memory, Wish } from "@/app/generated/prisma/client";
+// import { Memory, Wish } from "@/app/generated/prisma/client";
 import BirthdayCardSection from "@/components/BirthdayCardSection";
 import EnvelopeSection from "@/components/Envsec";
 import FinalGreetingSection from "@/components/FinalGreetingSection";
 import Loader from "@/components/Loader";
 import MemoryWallSection from "@/components/MemoryWallSection";
+import { Memory, Wish } from "@prisma/client";
 import { useProgress } from "@react-three/drei";
 import { useEffect, useState } from "react";
 
