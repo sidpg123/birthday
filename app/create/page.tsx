@@ -10,7 +10,7 @@ import { z } from "zod";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     Form,
     FormControl,
@@ -72,7 +72,7 @@ export default function CreateWishPage() {
         defaultValues: {
             senderName: "",
             recipientName: "",
-            message: "",
+            message: "Happy Birthday! 🌷 You bring so much light and joy to everyone around you. Wishing you a wonderful day and an even better year ahead! ✨",
             envelopImage: undefined,
         },
     });
@@ -344,8 +344,11 @@ export default function CreateWishPage() {
                                     <Badge variant="outline" className="text-rose-500 border-rose-200 bg-rose-50/80 font-mono text-[10px] h-5 px-1.5">
                                         02
                                     </Badge>
-                                    Write your message
+                                    Write your message (You can edit below message)
                                 </CardTitle>
+                                <CardDescription className="text-xs text-slate-400">
+                                    This message will be revealed on the card when they open it.You can edit it & make it personal!
+                                </CardDescription>
                             </CardHeader>
                             <CardContent className="pt-0">
                                 <FormField

@@ -22,20 +22,20 @@ export default function Home() {
   // Sample memories data
   const memories = [
     {
-      image: '/images/memory1.jpg',
-      caption: "The day you became celebrity. And our first photo!",
+      image: '/images/memory1.png',
+      caption: "No matter where life takes us, I’ll always choose to walk beside you",
     },
     {
-      image: '/images/memory2.jpg',
-      caption: 'Built more than just a project — built memories that compile forever.',
+      image: '/images/memory2.png',
+      caption: 'Our favorite people, our loud laughter, and memories that taste like happiness',
     },
     {
-      image: '/images/memory3.jpg',
-      caption: 'The ghibli art you never asked 😁.',
+      image: '/images/memory3.png',
+      caption: 'In the quiet of the sunset, I realized you are my forever.',
     },
     {
-      image: '/images/memory4.jpg',
-      caption: "Image I stole from your insta highlights. Hope you won't get angry 🙃",
+      image: '/images/memory4.png',
+      caption: "That smile I fell in love with — and still fall for every single day.",
     },
   ];
 
@@ -80,7 +80,7 @@ export default function Home() {
       </section>
 
       <section id="card">
-        <BirthdayCardSection photoUrl='' message={birthdayPerson.message} />
+        <BirthdayCardSection photoUrl='/images/envelopImage.png' message={birthdayPerson.message} />
       </section>
 
       <section id="memories">
